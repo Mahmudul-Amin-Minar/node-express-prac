@@ -1,0 +1,17 @@
+{
+  "name": "meadowlark",
+  "version": "1.0.0",
+  "description": "",
+  "main": "meadowlark.js",
+  "scripts": {
+    "start": "nodemon meadowlark",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "minar",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2",
+    "express-handlebars": "^6.0.6",
+    "multiparty": "^4.2.3"
+  }
+}
