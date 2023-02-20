@@ -11,57 +11,63 @@ datasource db {
 }
 
 model Subject {
-  subject_id        String  @id @default(uuid())
-  sub_name          String
-  description       String
-  chapter           Chapter @relation(fields: [chapterChapter_id], references: [chapter_id])
-  fee               Int
-  chapterChapter_id String
+  subject_id  String    @id @default(uuid())
+  sub_name    String    @unique
+  description String
+  fee         Int
+  chapters    Chapter[]
+  lessons     Lesson[]
 }
 
 model Chapter {
-  chapter_id      String    @id @default(uuid())
-  chapter_name    String
-  description     String?
-  lesson          Lesson    @relation(fields: [lessonLesson_id], references: [lesson_id])
-  Subject         Subject[]
-  lessonLesson_id String
-}
-
-model Lesson {
-  lesson_id           String    @id @default(uuid())
-  lesson_name         String
-  description         String
-  content             Content   @relation(fields: [contentContent_id], references: [content_id])
-  parallel_text       String
-  question_bank       Question  @relation(fields: [questionQuestion_id], references: [question_id])
-  formula             Formula   @relation(fields: [formulaFormula_id], references: [formula_id])
-  Chapter             Chapter[]
-  contentContent_id   String
-  questionQuestion_id String
-  formulaFormula_id   String
+  chapter_id       String   @id @default(uuid())
+  subject_id       Subject  @relation(fields: [chapterSubjectId], references: [subject_id])
+  chapter_name     String
+  description      String?
+  chapterSubjectId String
+  lessons          Lesson[]
 }
 
 model Question {
-  question_id   String   @id @default(uuid())
-  question_type String
-  description   String?
-  text          String?
-  answer        String?
-  Lesson        Lesson[]
+  question_id     String  @id @default(uuid())
+  question_type   String
+  description     String?
+  text            String?
+  answer          String?
+  Lesson          Lesson? @relation(fields: [lessonLesson_id], references: [lesson_id])
+  lessonLesson_id String?
 }
 
 model Content {
-  content_id   String   @id @default(uuid())
-  content_type String
-  link         String?
-  description  String?
-  Lesson       Lesson[]
+  content_id      String  @id @default(uuid())
+  content_type    String
+  link            String?
+  description     String?
+  Lesson          Lesson? @relation(fields: [lessonLesson_id], references: [lesson_id])
+  lessonLesson_id String?
 }
 
 model Formula {
-  formula_id  String   @id @default(uuid())
-  description String?
-  text        String?
-  Lesson      Lesson[]
+  formula_id      String  @id @default(uuid())
+  description     String?
+  text            String?
+  Lesson          Lesson? @relation(fields: [lessonLesson_id], references: [lesson_id])
+  lessonLesson_id String?
+}
+
+model Lesson {
+  lesson_id           String     @id @default(uuid())
+  chapter_id          Chapter?   @relation(fields: [chapterChapter_id], references: [chapter_id])
+  subject_id          Subject?   @relation(fields: [subjectSubject_id], references: [subject_id])
+  lesson_name         String
+  description         String
+  contents            Content[]
+  parallel_text       String
+  questions           Question[]
+  formulas            Formula[]
+  contentContent_id   String?
+  questionQuestion_id String?
+  formulaFormula_id   String?
+  chapterChapter_id   String?
+  subjectSubject_id   String?
 }
