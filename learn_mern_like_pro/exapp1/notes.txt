@@ -1,0 +1,5 @@
+express api
+    - create a student
+    - search student
+    - update a student
+    - delete a student
